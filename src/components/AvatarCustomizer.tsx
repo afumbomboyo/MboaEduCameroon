@@ -126,9 +126,9 @@ export const AvatarCustomizer: React.FC<AvatarCustomizerProps> = ({
   };
 
   return (
-    <div className="max-w-4xl mx-auto space-y-6">
+    <div className="max-w-4xl xl:max-w-5xl mx-auto space-y-4 sm:space-y-6">
       {/* Header */}
-      <div className="bg-white rounded-2xl border border-slate-200 p-6 shadow-xs flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+      <div className="bg-white rounded-2xl border border-slate-200 p-4 sm:p-6 shadow-xs flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
           <span className="text-[11px] font-bold uppercase tracking-wider text-emerald-800 bg-emerald-100 px-2 py-0.5 rounded-md">
             Pupil Locker & Identity
@@ -147,9 +147,9 @@ export const AvatarCustomizer: React.FC<AvatarCustomizerProps> = ({
         </div>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+      <div className="grid grid-cols-1 md:grid-cols-12 gap-4 sm:gap-6 items-start">
         {/* Avatar Visual Preview Box */}
-        <div className="lg:col-span-4 bg-white rounded-2xl border border-slate-200 p-6 shadow-xs text-center space-y-4">
+        <div className="md:col-span-4 lg:col-span-3 bg-white rounded-2xl border border-slate-200 p-5 sm:p-6 shadow-xs text-center space-y-4">
           <div className="relative w-32 h-32 mx-auto rounded-3xl bg-gradient-to-tr from-emerald-600 via-teal-700 to-emerald-900 flex items-center justify-center text-white shadow-md ring-4 ring-emerald-100">
             <span className="text-5xl font-black">
               {outfits.find((o) => o.id === selectedOutfit)?.icon || '🎓'}
@@ -187,7 +187,7 @@ export const AvatarCustomizer: React.FC<AvatarCustomizerProps> = ({
         </div>
 
         {/* Customization Controls */}
-        <div className="lg:col-span-8 bg-white rounded-2xl border border-slate-200 p-6 shadow-xs space-y-6">
+        <div className="md:col-span-8 lg:col-span-9 bg-white rounded-2xl border border-slate-200 p-4 sm:p-6 shadow-xs space-y-6">
           <form onSubmit={handleSaveProfile} className="space-y-6">
             {/* Basic Info */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">

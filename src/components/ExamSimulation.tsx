@@ -226,7 +226,7 @@ export const ExamSimulation: React.FC<ExamSimulationProps> = ({
   };
 
   return (
-    <div className="max-w-4xl mx-auto space-y-6">
+    <div className="max-w-4xl xl:max-w-5xl mx-auto space-y-4 sm:space-y-6">
       {examState === 'intro' && (
         <div className="bg-white rounded-2xl border border-slate-200 p-6 sm:p-8 shadow-xs space-y-6">
           <div className="flex items-center gap-3">
@@ -248,7 +248,7 @@ export const ExamSimulation: React.FC<ExamSimulationProps> = ({
           </p>
 
           {/* Exam Mode Cards */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 pt-2">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 sm:gap-4 pt-2">
             {/* Full Mock */}
             <div className="p-5 rounded-xl border border-emerald-200 bg-gradient-to-b from-emerald-50/50 to-white hover:border-emerald-500 transition-all flex flex-col justify-between space-y-4">
               <div>
@@ -337,7 +337,7 @@ export const ExamSimulation: React.FC<ExamSimulationProps> = ({
       {examState === 'active' && currentQ && (
         <div className="space-y-4">
           {/* Top Timer & Status Bar */}
-          <div className="bg-white rounded-2xl border border-slate-200 p-4 shadow-xs flex flex-wrap items-center justify-between gap-3">
+          <div className="bg-white rounded-2xl border border-slate-200 p-3 sm:p-4 shadow-xs flex flex-wrap items-center justify-between gap-2 sm:gap-3">
             <div className="flex items-center gap-2">
               <span className="text-xs font-bold uppercase tracking-wider text-slate-500">
                 Examination in Progress
@@ -368,9 +368,9 @@ export const ExamSimulation: React.FC<ExamSimulationProps> = ({
             </button>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-12 gap-5">
+          <div className="grid grid-cols-1 md:grid-cols-12 gap-4 sm:gap-5">
             {/* Question Card */}
-            <div className="md:col-span-8 bg-white rounded-2xl border border-slate-200 p-6 shadow-xs space-y-5">
+            <div className="md:col-span-8 bg-white rounded-2xl border border-slate-200 p-4 sm:p-6 shadow-xs space-y-4 sm:space-y-5">
               <div className="flex items-center justify-between gap-2">
                 <span className="text-xs font-extrabold text-slate-600">
                   Question {currentIndex + 1} of {examQuestions.length}
@@ -409,16 +409,16 @@ export const ExamSimulation: React.FC<ExamSimulationProps> = ({
                       key={idx}
                       id={`exam-opt-${idx}`}
                       onClick={() => handleSelectOption(currentQ.id, idx)}
-                      className={`w-full text-left p-3.5 rounded-xl border text-sm transition-all flex items-center gap-3 cursor-pointer ${
+                      className={`w-full text-left p-3 sm:p-3.5 md:p-4 rounded-xl border text-sm sm:text-base font-bold min-h-[52px] sm:min-h-[48px] transition-all flex items-center gap-3 cursor-pointer active:scale-[0.98] ${
                         isSelected
-                          ? 'border-emerald-600 bg-emerald-50 text-emerald-950 font-bold ring-2 ring-emerald-500/20'
+                          ? 'border-emerald-600 bg-emerald-50 text-emerald-950 font-black ring-2 ring-emerald-500/20'
                           : 'border-slate-200 bg-slate-50 hover:bg-slate-100 text-slate-800'
                       }`}
                     >
-                      <span className="w-6 h-6 rounded-md border border-current flex items-center justify-center font-bold text-xs shrink-0">
+                      <span className="w-7 h-7 rounded-lg border border-current flex items-center justify-center font-black text-xs shrink-0 bg-white/80 shadow-2xs">
                         {String.fromCharCode(65 + idx)}
                       </span>
-                      <span>{opt}</span>
+                      <span className="leading-snug">{opt}</span>
                     </button>
                   );
                 })}
@@ -456,7 +456,7 @@ export const ExamSimulation: React.FC<ExamSimulationProps> = ({
             </div>
 
             {/* Question Matrix Navigation Palette */}
-            <div className="md:col-span-4 bg-white rounded-2xl border border-slate-200 p-5 shadow-xs space-y-4">
+            <div className="md:col-span-4 bg-white rounded-2xl border border-slate-200 p-4 sm:p-5 shadow-xs space-y-4">
               <h3 className="text-xs font-bold uppercase tracking-wider text-slate-700">
                 Question Sheet Palette
               </h3>
@@ -561,7 +561,7 @@ export const ExamSimulation: React.FC<ExamSimulationProps> = ({
                 <span>Curriculum Subject Breakdown</span>
               </h3>
 
-              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3">
+              <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-2 sm:gap-3">
                 {latestResult.subjectScores.map((score) => (
                   <div
                     key={score.subject}

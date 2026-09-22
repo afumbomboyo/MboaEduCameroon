@@ -36,9 +36,9 @@ export const TeacherDashboard: React.FC = () => {
   };
 
   return (
-    <div className="max-w-6xl mx-auto space-y-6">
+    <div className="max-w-6xl xl:max-w-7xl mx-auto space-y-4 sm:space-y-6">
       {/* Header bar */}
-      <div className="bg-white rounded-2xl border border-slate-200 p-6 shadow-xs flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+      <div className="bg-white rounded-2xl border border-slate-200 p-4 sm:p-6 shadow-xs flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
           <span className="text-[11px] font-bold uppercase tracking-wider text-emerald-800 bg-emerald-100 px-2 py-0.5 rounded-md">
             Teacher & School Administration
@@ -108,7 +108,7 @@ export const TeacherDashboard: React.FC = () => {
       )}
 
       {/* Key Class Performance Metrics */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+      <div className="grid grid-cols-2 xl:grid-cols-4 gap-3 sm:gap-4">
         <div className="bg-white rounded-xl border border-slate-200 p-4 space-y-1 shadow-xs">
           <span className="text-[11px] font-bold text-slate-500 uppercase">
             Class Examination Readiness

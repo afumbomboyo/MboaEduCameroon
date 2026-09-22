@@ -1,0 +1,8 @@
+{
+  "/_not-found/page": "app/_not-found/page.js",
+  "/api/game/record-mission/route": "app/api/game/record-mission/route.js",
+  "/api/health/route": "app/api/health/route.js",
+  "/api/tutor/explain-mistake/route": "app/api/tutor/explain-mistake/route.js",
+  "/api/tutor/diagnose-weakness/route": "app/api/tutor/diagnose-weakness/route.js",
+  "/page": "app/page.js"
+}

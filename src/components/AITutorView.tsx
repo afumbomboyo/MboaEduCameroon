@@ -134,15 +134,15 @@ export const AITutorView: React.FC<AITutorViewProps> = ({
   };
 
   return (
-    <div className="max-w-4xl mx-auto space-y-6">
+    <div className="max-w-4xl xl:max-w-5xl mx-auto space-y-4 sm:space-y-6">
       {/* Header banner */}
-      <div className="bg-gradient-to-r from-purple-900 via-indigo-900 to-slate-900 text-white rounded-2xl p-6 sm:p-8 shadow-sm">
+      <div className="bg-gradient-to-r from-purple-900 via-indigo-900 to-slate-900 text-white rounded-2xl p-4 sm:p-6 lg:p-8 shadow-sm">
         <div className="max-w-2xl space-y-2">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-purple-700/60 border border-purple-500/40 text-xs font-semibold text-purple-200">
             <Brain className="w-3.5 h-3.5 text-amber-300" />
             <span>Cameroon AI Tutor: "Explain My Mistake" Engine</span>
           </div>
-          <h1 className="text-2xl sm:text-3xl font-black font-display tracking-tight">
+          <h1 className="text-xl sm:text-2xl lg:text-3xl font-black font-display tracking-tight">
             Turn Every Error into Exam Mastery
           </h1>
           <p className="text-purple-200 text-xs sm:text-sm leading-relaxed">
@@ -181,9 +181,9 @@ export const AITutorView: React.FC<AITutorViewProps> = ({
         </div>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 sm:gap-6 items-start">
         {/* Recent Mistakes History sidebar */}
-        <div className="lg:col-span-4 bg-white rounded-2xl border border-slate-200 p-5 shadow-xs space-y-4">
+        <div className="lg:col-span-4 xl:col-span-3 bg-white rounded-2xl border border-slate-200 p-4 sm:p-5 shadow-xs space-y-4">
           <div className="flex items-center justify-between pb-2 border-b border-slate-100">
             <h2 className="text-xs font-extrabold uppercase tracking-wider text-slate-700 flex items-center gap-1.5">
               <BookOpen className="w-4 h-4 text-purple-600" />
@@ -261,7 +261,7 @@ export const AITutorView: React.FC<AITutorViewProps> = ({
         </div>
 
         {/* Diagnosis & Scaffolding workspace */}
-        <div className="lg:col-span-8 bg-white rounded-2xl border border-slate-200 p-6 shadow-xs space-y-6">
+        <div className="lg:col-span-8 xl:col-span-9 bg-white rounded-2xl border border-slate-200 p-4 sm:p-6 shadow-xs space-y-6">
           {selectedError ? (
             <div className="space-y-6">
               {/* Problem details */}

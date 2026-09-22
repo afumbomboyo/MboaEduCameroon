@@ -67,9 +67,9 @@ export const ParentDashboard: React.FC<ParentDashboardProps> = ({
   };
 
   return (
-    <div className="max-w-4xl mx-auto space-y-6">
+    <div className="max-w-4xl xl:max-w-5xl mx-auto space-y-4 sm:space-y-6">
       {/* Top Banner */}
-      <div className="bg-white rounded-2xl border border-slate-200 p-6 shadow-xs flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+      <div className="bg-white rounded-2xl border border-slate-200 p-4 sm:p-6 shadow-xs flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
           <span className="text-[11px] font-bold uppercase tracking-wider text-emerald-800 bg-emerald-100 px-2 py-0.5 rounded-md">
             Parent Weekly Monitoring Portal
@@ -110,22 +110,22 @@ export const ParentDashboard: React.FC<ParentDashboardProps> = ({
           <table className="w-full text-left text-sm">
             <thead className="bg-slate-50 text-[11px] font-extrabold uppercase text-slate-500 border-b border-slate-200">
               <tr>
-                <th className="px-6 py-3">Area / Subject</th>
-                <th className="px-6 py-3">Mastery Score</th>
-                <th className="px-6 py-3">Weekly Trend</th>
-                <th className="px-6 py-3 hidden md:table-cell">Teacher / AI Evaluation</th>
+                <th className="px-3 sm:px-6 py-3">Area / Subject</th>
+                <th className="px-3 sm:px-6 py-3">Mastery Score</th>
+                <th className="px-3 sm:px-6 py-3">Weekly Trend</th>
+                <th className="px-3 sm:px-6 py-3 hidden md:table-cell">Teacher / AI Evaluation</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-100">
               {reportAreas.map((item, idx) => (
                 <tr key={idx} className="hover:bg-slate-50/60 transition-colors">
-                  <td className="px-6 py-4 font-bold text-slate-900">{item.subject}</td>
-                  <td className="px-6 py-4">
-                    <span className="font-extrabold text-slate-900 font-display text-base">
+                  <td className="px-3 sm:px-6 py-3 sm:py-4 font-bold text-slate-900 text-xs sm:text-sm">{item.subject}</td>
+                  <td className="px-3 sm:px-6 py-3 sm:py-4">
+                    <span className="font-extrabold text-slate-900 font-display text-sm sm:text-base">
                       {item.score}%
                     </span>
                   </td>
-                  <td className="px-6 py-4">
+                  <td className="px-3 sm:px-6 py-3 sm:py-4">
                     {item.trend === 'up' && (
                       <span className="inline-flex items-center gap-1 font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-md border border-emerald-200 text-xs">
                         <TrendingUp className="w-3.5 h-3.5" />
@@ -145,7 +145,7 @@ export const ParentDashboard: React.FC<ParentDashboardProps> = ({
                       </span>
                     )}
                   </td>
-                  <td className="px-6 py-4 text-xs text-slate-600 hidden md:table-cell leading-relaxed">
+                  <td className="px-3 sm:px-6 py-3 sm:py-4 text-xs text-slate-600 hidden md:table-cell leading-relaxed">
                     {item.status}
                   </td>
                 </tr>

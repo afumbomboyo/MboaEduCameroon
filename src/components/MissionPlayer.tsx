@@ -206,12 +206,12 @@ export const MissionPlayer: React.FC<MissionPlayerProps> = ({
   }
 
   return (
-    <div className="max-w-3xl mx-auto space-y-6 relative">
+    <div className="max-w-3xl xl:max-w-4xl mx-auto space-y-4 sm:space-y-6 relative">
       {/* Festive Confetti Explosion on Correct Answer */}
       <ConfettiBurst triggerKey={confettiKey} />
 
       {/* Top Navigation & Mission Progress Bar */}
-      <div className="bg-white rounded-2xl border border-slate-200 p-4 shadow-xs">
+      <div className="bg-white rounded-2xl border border-slate-200 p-3 sm:p-4 shadow-xs">
         <div className="flex items-center justify-between gap-4 mb-3">
           <button
             id="mission-exit-btn"
@@ -273,7 +273,7 @@ export const MissionPlayer: React.FC<MissionPlayerProps> = ({
             }}
             exit={{ opacity: 0, y: -20, scale: 0.98 }}
             transition={{ duration: 0.35, ease: 'easeOut' }}
-            className={`bg-white rounded-3xl border-2 p-6 sm:p-8 shadow-sm space-y-6 transition-colors ${
+            className={`bg-white rounded-3xl border-2 p-4 sm:p-6 lg:p-8 shadow-sm space-y-4 sm:space-y-6 transition-colors ${
               isAnswerSubmitted
                 ? isCorrect
                   ? 'border-emerald-400 bg-emerald-50/10'
@@ -407,10 +407,10 @@ export const MissionPlayer: React.FC<MissionPlayerProps> = ({
                     whileTap={!isAnswerSubmitted ? { scale: 0.985 } : {}}
                     onClick={() => handleSelectOption(idx)}
                     disabled={isAnswerSubmitted}
-                    className={`w-full text-left p-4 rounded-2xl border transition-all flex items-center justify-between gap-3 text-sm cursor-pointer shadow-2xs ${optionStyle}`}
+                    className={`w-full text-left p-3.5 sm:p-4 rounded-2xl border transition-all flex items-center justify-between gap-3 text-sm sm:text-base font-bold min-h-[52px] cursor-pointer shadow-2xs active:scale-[0.98] ${optionStyle}`}
                   >
                     <div className="flex items-center gap-3">
-                      <span className="w-8 h-8 rounded-xl border border-current flex items-center justify-center font-black text-xs shrink-0 bg-white/70">
+                      <span className="w-8 h-8 rounded-xl border border-current flex items-center justify-center font-black text-xs shrink-0 bg-white/80 shadow-2xs">
                         {String.fromCharCode(65 + idx)}
                       </span>
                       <span className="leading-snug">{optionText}</span>
@@ -599,7 +599,7 @@ export const MissionPlayer: React.FC<MissionPlayerProps> = ({
           </div>
 
           {/* Reward Badges Grid */}
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 max-w-lg mx-auto">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 max-w-lg mx-auto w-full">
             <motion.div
               whileHover={{ scale: 1.05 }}
               className="p-3.5 rounded-2xl bg-amber-50 border border-amber-200 text-center shadow-2xs"

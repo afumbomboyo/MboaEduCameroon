@@ -180,14 +180,14 @@ export const CameroonMap: React.FC<CameroonMapProps> = ({
   return (
     <div className="space-y-6">
       {/* Game RPG Header & Cameroon Landscape Banner */}
-      <div className="relative overflow-hidden rounded-3xl bg-gradient-to-r from-emerald-950 via-teal-900 to-slate-950 text-white p-6 sm:p-8 shadow-xl border border-emerald-800/40">
+      <div className="relative overflow-hidden rounded-3xl bg-gradient-to-r from-emerald-950 via-teal-900 to-slate-950 text-white p-4 sm:p-6 lg:p-8 shadow-xl border border-emerald-800/40">
         {/* Animated Background Atmosphere Stars & Ambient Glow */}
         <div className="absolute inset-0 opacity-20 pointer-events-none bg-[radial-gradient(#10b981_1px,transparent_1px)] [background-size:16px_16px]" />
         <div className="absolute top-0 right-1/4 w-96 h-96 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none" />
 
-        <div className="relative z-10 flex flex-col lg:flex-row lg:items-center justify-between gap-6">
+        <div className="relative z-10 flex flex-col xl:flex-row xl:items-center justify-between gap-4 xl:gap-6">
           <div className="max-w-2xl space-y-2">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/20 border border-emerald-400/30 text-xs font-bold text-emerald-300">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/20 border border-emerald-400/30 text-[11px] sm:text-xs font-bold text-emerald-300">
               <Compass
                 className="w-3.5 h-3.5 text-amber-300 animate-spin"
                 style={{ animationDuration: '14s' }}
@@ -195,7 +195,7 @@ export const CameroonMap: React.FC<CameroonMapProps> = ({
               <span>Interactive Cameroon World Quest • Africa in Miniature</span>
             </div>
 
-            <h1 className="text-2xl sm:text-4xl font-black font-display tracking-tight text-white drop-shadow-sm">
+            <h1 className="text-xl sm:text-2xl lg:text-4xl font-black font-display tracking-tight text-white drop-shadow-sm">
               Explore the 10 Regions of Cameroon
             </h1>
 
@@ -203,7 +203,7 @@ export const CameroonMap: React.FC<CameroonMapProps> = ({
               Tap any regional hub on Cameroon's authentic map! Your scholar avatar will run to the city and invite you to embark on local Common Entrance and FSLC curriculum quests.
             </p>
 
-            <div className="pt-2 flex flex-wrap items-center gap-3 text-xs font-semibold text-emerald-200">
+            <div className="pt-2 flex flex-wrap items-center gap-2 sm:gap-3 text-xs font-semibold text-emerald-200">
               <span className="flex items-center gap-1.5 bg-emerald-900/60 px-2.5 py-1 rounded-lg border border-emerald-700/50">
                 <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" />
                 {profile.completedMissionIds.length} of {CAMEROON_MISSIONS.length} Hubs Conquered
@@ -216,17 +216,17 @@ export const CameroonMap: React.FC<CameroonMapProps> = ({
             </div>
           </div>
 
-          {/* Background Sounds & Atmosphere Switcher */}
-          <div className="w-full lg:w-[380px] shrink-0">
+          {/* Background Sounds & Atmosphere Switcher — full width on mobile, fixed width on XL */}
+          <div className="w-full xl:w-[380px] shrink-0">
             <BgmSoundSelector className="w-full" />
           </div>
         </div>
       </div>
 
       {/* Main Grid: Interactive Cameroon Map + Mission Briefing */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 sm:gap-6 items-start">
         {/* Map Canvas Card */}
-        <div className="lg:col-span-7 bg-white rounded-3xl border border-slate-200 p-5 sm:p-6 shadow-sm space-y-4 relative">
+        <div className="lg:col-span-7 xl:col-span-8 bg-white rounded-3xl border border-slate-200 p-4 sm:p-5 lg:p-6 shadow-sm space-y-4 relative">
           <div className="flex flex-wrap items-center justify-between gap-3 pb-3 border-b border-slate-100">
             <div className="flex items-center gap-2">
               <MapPin className="w-5 h-5 text-emerald-600" />
@@ -262,7 +262,7 @@ export const CameroonMap: React.FC<CameroonMapProps> = ({
           </div>
 
           {/* Map Viewport & Game Stage */}
-          <div className="relative w-full aspect-[4/5] bg-gradient-to-b from-sky-100/90 via-sky-50 to-slate-100 rounded-2xl border-2 border-slate-200/90 overflow-hidden flex items-center justify-center p-2 select-none shadow-inner">
+          <div className="relative w-full aspect-[3/4] sm:aspect-[4/5] bg-gradient-to-b from-sky-100/90 via-sky-50 to-slate-100 rounded-2xl border-2 border-slate-200/90 overflow-hidden flex items-center justify-center p-2 select-none shadow-inner">
             {/* Ambient Animated Clouds */}
             <div className="absolute top-4 left-[-10%] w-32 h-10 bg-white/70 backdrop-blur-xs rounded-full blur-[1px] shadow-sm pointer-events-none animate-pulse" />
             <div className="absolute top-36 right-4 w-28 h-10 bg-white/60 backdrop-blur-xs rounded-full blur-[1px] shadow-sm pointer-events-none" />
@@ -964,7 +964,7 @@ export const CameroonMap: React.FC<CameroonMapProps> = ({
         </div>
 
         {/* Mission Briefing Card on Right */}
-        <div className="lg:col-span-5 bg-white rounded-3xl border border-slate-200 p-6 shadow-sm space-y-5">
+        <div className="lg:col-span-5 xl:col-span-4 bg-white rounded-3xl border border-slate-200 p-4 sm:p-6 shadow-sm space-y-5">
           {/* Header & Location Identity */}
           <div>
             <div className="flex items-center justify-between gap-2">
