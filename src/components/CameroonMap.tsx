@@ -161,7 +161,11 @@ export const CameroonMap: React.FC<CameroonMapProps> = ({
   const isCompleted = (missionId: string) =>
     profile.completedMissionIds.includes(missionId);
 
-  const filteredMissions = CAMEROON_MISSIONS.filter((m) =>
+  const countryMapMissions = Array.from(
+    new Map(CAMEROON_MISSIONS.map((mission) => [mission.region, mission])).values()
+  );
+
+  const filteredMissions = countryMapMissions.filter((m) =>
     filterRegion === 'all' ? true : m.region === filterRegion
   );
 
@@ -680,9 +684,9 @@ export const CameroonMap: React.FC<CameroonMapProps> = ({
               </g>
 
               {/* 5. Animated Quest Pathway connecting regional hubs */}
-              {CAMEROON_MISSIONS.map((m, idx) => {
+              {countryMapMissions.map((m, idx) => {
                 if (idx === 0) return null;
-                const prev = CAMEROON_MISSIONS[idx - 1];
+                const prev = countryMapMissions[idx - 1];
                 return (
                   <line
                     key={`quest-trail-${m.id}`}
@@ -700,7 +704,7 @@ export const CameroonMap: React.FC<CameroonMapProps> = ({
               })}
 
               {/* 6. Interactive Quest Pins for Regional Cities with Large Select Circles & Labels */}
-              {CAMEROON_MISSIONS.map((mission) => {
+              {countryMapMissions.map((mission) => {
                 const isSelected = selectedMission.id === mission.id;
                 const isHovered = hoveredMission?.id === mission.id;
                 const completed = isCompleted(mission.id);

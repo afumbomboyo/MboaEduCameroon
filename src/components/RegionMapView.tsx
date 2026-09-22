@@ -89,6 +89,7 @@ export const RegionMapView: React.FC<RegionMapViewProps> = ({
   // Current speech bubble dialogue
   const [currentSpeech, setCurrentSpeech] = useState<string>('');
   const [isSpeaking, setIsSpeaking] = useState<boolean>(false);
+  const [showSpeechBubble, setShowSpeechBubble] = useState<boolean>(true);
 
   // Zoom animation states ('entering' | 'ready' | 'leaving')
   const [zoomPhase, setZoomPhase] = useState<'entering' | 'ready' | 'leaving'>(
@@ -113,10 +114,17 @@ export const RegionMapView: React.FC<RegionMapViewProps> = ({
     // Deliver avatar greeting after visual map settles
     const speechTimer = setTimeout(() => {
       setCurrentSpeech(initialGreeting);
+      setShowSpeechBubble(true);
       speakAvatarText(initialGreeting, {
         gender: guide.gender,
-        onStart: () => setIsSpeaking(true),
-        onEnd: () => setIsSpeaking(false),
+        onStart: () => {
+          setIsSpeaking(true);
+          setShowSpeechBubble(true);
+        },
+        onEnd: () => {
+          setIsSpeaking(false);
+          setShowSpeechBubble(false);
+        },
       });
     }, 600);
 
@@ -137,6 +145,7 @@ export const RegionMapView: React.FC<RegionMapViewProps> = ({
 
     const farewellMessage = 'Bye, see you again next time';
     setCurrentSpeech(`${farewellMessage}! 👋`);
+    setShowSpeechBubble(true);
 
     let hasExecutedZoomOut = false;
     const triggerZoomOut = () => {
@@ -161,11 +170,18 @@ export const RegionMapView: React.FC<RegionMapViewProps> = ({
     // Guide avatar speaks the farewell sentence. We wait for onEnd before zooming out!
     speakAvatarText(farewellMessage, {
       gender: guide.gender,
-      onStart: () => setIsSpeaking(true),
+      onStart: () => {
+        setIsSpeaking(true);
+        setShowSpeechBubble(true);
+      },
       onEnd: () => {
+        setIsSpeaking(false);
+        setShowSpeechBubble(false);
         triggerZoomOut();
       },
       onError: () => {
+        setIsSpeaking(false);
+        setShowSpeechBubble(false);
         triggerZoomOut();
       },
     });
@@ -179,10 +195,17 @@ export const RegionMapView: React.FC<RegionMapViewProps> = ({
   // Replay current speech
   const handleReplaySpeech = () => {
     const textToSpeak = currentSpeech || initialGreeting;
+    setShowSpeechBubble(true);
     speakAvatarText(textToSpeak, {
       gender: guide.gender,
-      onStart: () => setIsSpeaking(true),
-      onEnd: () => setIsSpeaking(false),
+      onStart: () => {
+        setIsSpeaking(true);
+        setShowSpeechBubble(true);
+      },
+      onEnd: () => {
+        setIsSpeaking(false);
+        setShowSpeechBubble(false);
+      },
     });
   };
 
@@ -203,13 +226,20 @@ export const RegionMapView: React.FC<RegionMapViewProps> = ({
     setGuidePos({ x: targetX, y: targetY });
 
     // Guide introduces the selected site
-    const siteSpeech = `Here is ${site.name}! ${site.tagline}. Would you like to study its history and science?`;
+    const siteSpeech = `Mission alert: ${site.name}! ${site.tagline}. Ready to solve the challenge and help our community?`;
     setCurrentSpeech(siteSpeech);
+    setShowSpeechBubble(true);
 
     speakAvatarText(siteSpeech, {
       gender: guide.gender,
-      onStart: () => setIsSpeaking(true),
-      onEnd: () => setIsSpeaking(false),
+      onStart: () => {
+        setIsSpeaking(true);
+        setShowSpeechBubble(true);
+      },
+      onEnd: () => {
+        setIsSpeaking(false);
+        setShowSpeechBubble(false);
+      },
     });
   };
 
@@ -218,10 +248,17 @@ export const RegionMapView: React.FC<RegionMapViewProps> = ({
     playClickSound();
     const factText = `${site.name}. ${site.description} Key facts: ${site.facts.join(' ')}`;
     setCurrentSpeech(`Exploring ${site.name}...`);
+    setShowSpeechBubble(true);
     speakAvatarText(factText, {
       gender: guide.gender,
-      onStart: () => setIsSpeaking(true),
-      onEnd: () => setIsSpeaking(false),
+      onStart: () => {
+        setIsSpeaking(true);
+        setShowSpeechBubble(true);
+      },
+      onEnd: () => {
+        setIsSpeaking(false);
+        setShowSpeechBubble(false);
+      },
     });
   };
 
@@ -231,18 +268,112 @@ export const RegionMapView: React.FC<RegionMapViewProps> = ({
       CAMEROON_MISSIONS.find((m) => m.id === selectedSite.missionId)) ||
     CAMEROON_MISSIONS.find((m) => m.region === regionData.id);
 
-  // Compute positions of popular sites on the 900x650 regional map
-  const popularSitesWithCoords = regionData.popularSites.map((site) => {
-    const coords = mapSpec.sitePositions[site.id] || {
-      x: (site.coordinates.x / 100) * 900,
-      y: (site.coordinates.y / 100) * 650,
+  // Spread region missions across the regional map so they do not overlap and so
+  // the map reads like a real geography-based challenge board instead of a single cluster.
+  const regionMissionPins: PopularSite[] = (() => {
+    const missionsInRegion = CAMEROON_MISSIONS.filter(
+      (mission) => mission.region === regionId
+    );
+
+    const regionMissionPoints: Record<string, Array<{ x: number; y: number }>> = {
+      south_west: [
+        { x: 470, y: 260 }, { x: 550, y: 295 }, { x: 430, y: 330 }, { x: 360, y: 420 },
+        { x: 260, y: 440 }, { x: 200, y: 340 }, { x: 245, y: 210 }, { x: 330, y: 150 },
+        { x: 430, y: 500 }, { x: 535, y: 545 },
+      ],
+      littoral: [
+        { x: 420, y: 420 }, { x: 490, y: 350 }, { x: 330, y: 470 }, { x: 430, y: 510 },
+        { x: 545, y: 290 }, { x: 600, y: 500 }, { x: 680, y: 340 }, { x: 690, y: 200 },
+        { x: 350, y: 220 }, { x: 610, y: 430 },
+      ],
+      centre: [
+        { x: 450, y: 335 }, { x: 520, y: 280 }, { x: 390, y: 360 }, { x: 440, y: 420 },
+        { x: 600, y: 430 }, { x: 540, y: 170 }, { x: 330, y: 270 }, { x: 650, y: 220 },
+        { x: 300, y: 500 }, { x: 560, y: 520 },
+      ],
+      north_west: [
+        { x: 410, y: 330 }, { x: 540, y: 270 }, { x: 350, y: 240 }, { x: 460, y: 420 },
+        { x: 630, y: 290 }, { x: 305, y: 380 }, { x: 470, y: 220 }, { x: 560, y: 380 },
+        { x: 680, y: 210 }, { x: 430, y: 500 },
+      ],
+      west: [
+        { x: 610, y: 280 }, { x: 430, y: 340 }, { x: 350, y: 390 }, { x: 520, y: 430 },
+        { x: 270, y: 310 }, { x: 640, y: 510 }, { x: 560, y: 180 }, { x: 480, y: 250 },
+        { x: 310, y: 230 }, { x: 420, y: 520 },
+      ],
+      north: [
+        { x: 420, y: 330 }, { x: 640, y: 360 }, { x: 300, y: 250 }, { x: 500, y: 440 },
+        { x: 690, y: 480 }, { x: 570, y: 460 }, { x: 590, y: 220 }, { x: 360, y: 420 },
+        { x: 410, y: 180 }, { x: 200, y: 500 },
+      ],
+      far_north: [
+        { x: 480, y: 270 }, { x: 310, y: 380 }, { x: 520, y: 430 }, { x: 630, y: 370 },
+        { x: 490, y: 60 }, { x: 570, y: 160 }, { x: 390, y: 220 }, { x: 540, y: 330 },
+        { x: 220, y: 420 }, { x: 660, y: 260 },
+      ],
+      adamawa: [
+        { x: 470, y: 270 }, { x: 630, y: 280 }, { x: 420, y: 210 }, { x: 560, y: 340 },
+        { x: 310, y: 460 }, { x: 230, y: 320 }, { x: 500, y: 470 }, { x: 660, y: 360 },
+        { x: 360, y: 170 }, { x: 280, y: 560 },
+      ],
+      east: [
+        { x: 440, y: 390 }, { x: 740, y: 440 }, { x: 380, y: 220 }, { x: 320, y: 150 },
+        { x: 560, y: 470 }, { x: 530, y: 230 }, { x: 260, y: 360 }, { x: 650, y: 300 },
+        { x: 700, y: 190 }, { x: 440, y: 520 },
+      ],
+      south: [
+        { x: 240, y: 370 }, { x: 270, y: 280 }, { x: 530, y: 320 }, { x: 270, y: 490 },
+        { x: 220, y: 430 }, { x: 640, y: 290 }, { x: 400, y: 420 }, { x: 520, y: 170 },
+        { x: 700, y: 360 }, { x: 460, y: 610 },
+      ],
     };
-    return {
-      ...site,
-      mapX: coords.x,
-      mapY: coords.y,
-    };
-  });
+
+    const regionPoints = regionMissionPoints[regionId] || [
+      { x: 250, y: 180 }, { x: 320, y: 220 }, { x: 400, y: 260 }, { x: 470, y: 320 },
+      { x: 260, y: 350 }, { x: 340, y: 420 }, { x: 440, y: 450 }, { x: 570, y: 330 },
+      { x: 585, y: 520 }, { x: 640, y: 190 },
+    ];
+
+    if (missionsInRegion.length > 0) {
+      return missionsInRegion.map((mission, index) => {
+        const point = regionPoints[index % regionPoints.length] ?? {
+          x: 300 + (index % 5) * 100,
+          y: 180 + Math.floor(index / 5) * 120,
+        };
+
+        return {
+          id: mission.id,
+          name: mission.title,
+          frenchName: mission.title,
+          type: 'market',
+          icon: mission.badgeIcon,
+          cityOrTown: mission.city,
+          tagline: mission.tagline,
+          coordinates: point,
+          description: mission.storyIntro,
+          curriculumSubject: 'Mission Challenge',
+          curriculumConcept: mission.tagline,
+          facts: [mission.storyIntro, mission.storyOutro],
+          isCurriculumMissionHub: true,
+          missionId: mission.id,
+          mapX: point.x,
+          mapY: point.y,
+        } as PopularSite;
+      });
+    }
+
+    return regionData.popularSites.map((site) => {
+      const coords = mapSpec.sitePositions[site.id] || {
+        x: (site.coordinates.x / 100) * 900,
+        y: (site.coordinates.y / 100) * 650,
+      };
+      return {
+        ...site,
+        mapX: coords.x,
+        mapY: coords.y,
+      };
+    });
+  })();
 
   return (
     <div
@@ -325,13 +456,13 @@ export const RegionMapView: React.FC<RegionMapViewProps> = ({
                   {regionData.name} Regional Map
                 </h2>
                 <p className="text-xs text-slate-500">
-                  Tap any popular landmark or historical site to explore with Guide {guide.name}!
+                  Tap any mission hub to begin an adventure with Guide {guide.name}!
                 </p>
               </div>
             </div>
 
             <span className="text-xs font-semibold px-3 py-1.5 rounded-xl bg-emerald-50 text-emerald-700 border border-emerald-200">
-              {popularSitesWithCoords.length} Regional Sites Mapped
+              {regionMissionPins.length} Mission Hubs Mapped
             </span>
           </div>
 
@@ -572,9 +703,9 @@ export const RegionMapView: React.FC<RegionMapViewProps> = ({
               </g>
 
               {/* 6. Quest Pathway Connecting Popular Sites in the Region */}
-              {popularSitesWithCoords.map((site, idx) => {
+              {regionMissionPins.map((site, idx) => {
                 if (idx === 0) return null;
-                const prev = popularSitesWithCoords[idx - 1];
+                const prev = regionMissionPins[idx - 1];
                 return (
                   <line
                     key={`site-trail-${site.id}`}
@@ -590,8 +721,8 @@ export const RegionMapView: React.FC<RegionMapViewProps> = ({
                 );
               })}
 
-              {/* 7. Interactive Quest Pins for Popular Sites (Matching Cameroon Map Structure) */}
-              {popularSitesWithCoords.map((site) => {
+              {/* 7. Interactive Quest Pins for Regional Mission Hubs */}
+              {regionMissionPins.map((site) => {
                 const isSelected = selectedSite?.id === site.id;
                 const isHovered = hoveredSite?.id === site.id;
 
@@ -737,38 +868,57 @@ export const RegionMapView: React.FC<RegionMapViewProps> = ({
             </svg>
 
             {/* Guide Interactive Speech Bubble Dialogue at bottom of map */}
-            <div className="absolute bottom-3 left-3 right-3 sm:left-6 sm:right-6 bg-white/98 backdrop-blur-md rounded-2xl border-2 border-emerald-500 p-3.5 sm:p-4 shadow-xl z-20">
-              <div className="flex items-start gap-3">
-                <div className="shrink-0">
-                  <RegionalGuideAvatar
-                    guide={guide}
-                    isSpeaking={isSpeaking}
-                    size="sm"
-                  />
-                </div>
-
-                <div className="flex-1 space-y-1">
-                  <div className="flex items-center justify-between gap-2">
-                    <span className="text-xs font-bold text-emerald-800 flex items-center gap-1.5">
-                      <Sparkles className="w-3.5 h-3.5 text-amber-500" />
-                      Guide {guide.name} says:
-                    </span>
-
-                    <button
-                      onClick={handleReplaySpeech}
-                      className="p-1 rounded-lg bg-emerald-50 hover:bg-emerald-100 text-emerald-700 transition-colors"
-                      title="Replay guide audio"
-                    >
-                      <Volume2 className="w-3.5 h-3.5" />
-                    </button>
+            {showSpeechBubble ? (
+              <div className="absolute bottom-3 left-3 right-3 sm:left-6 sm:right-6 bg-white/98 backdrop-blur-md rounded-2xl border-2 border-emerald-500 p-3.5 sm:p-4 shadow-xl z-20">
+                <div className="flex items-start gap-3">
+                  <div className="shrink-0">
+                    <RegionalGuideAvatar
+                      guide={guide}
+                      isSpeaking={isSpeaking}
+                      size="sm"
+                    />
                   </div>
 
-                  <p className="text-xs sm:text-sm font-semibold text-slate-800 leading-snug">
-                    "{currentSpeech || initialGreeting}"
-                  </p>
+                  <div className="flex-1 space-y-1">
+                    <div className="flex items-center justify-between gap-2">
+                      <span className="text-xs font-bold text-emerald-800 flex items-center gap-1.5">
+                        <Sparkles className="w-3.5 h-3.5 text-amber-500" />
+                        Guide {guide.name} says:
+                      </span>
+
+                      <div className="flex items-center gap-1">
+                        <button
+                          onClick={handleReplaySpeech}
+                          className="p-1 rounded-lg bg-emerald-50 hover:bg-emerald-100 text-emerald-700 transition-colors"
+                          title="Replay guide audio"
+                        >
+                          <Volume2 className="w-3.5 h-3.5" />
+                        </button>
+                        <button
+                          onClick={() => setShowSpeechBubble(false)}
+                          className="p-1 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-600 transition-colors"
+                          title="Close guide message"
+                        >
+                          <X className="w-3.5 h-3.5" />
+                        </button>
+                      </div>
+                    </div>
+
+                    <p className="text-xs sm:text-sm font-semibold text-slate-800 leading-snug">
+                      "{currentSpeech || initialGreeting}"
+                    </p>
+                  </div>
                 </div>
               </div>
-            </div>
+            ) : (
+              <button
+                onClick={() => setShowSpeechBubble(true)}
+                className="absolute bottom-3 left-3 right-3 sm:left-6 sm:right-6 z-20 flex items-center justify-center gap-2 rounded-xl border border-emerald-200 bg-white/85 px-3 py-2 text-xs font-bold text-emerald-800 shadow-lg backdrop-blur-sm hover:bg-emerald-50"
+              >
+                <Sparkles className="w-3.5 h-3.5" />
+                Open Guide Message
+              </button>
+            )}
           </div>
         </div>
 
@@ -781,7 +931,7 @@ export const RegionMapView: React.FC<RegionMapViewProps> = ({
                 <div className="flex items-start justify-between gap-2">
                   <div>
                     <span className="text-xs font-bold text-emerald-600 uppercase tracking-wider">
-                      {selectedSite.type} • {selectedSite.cityOrTown}
+                      Mission • {selectedSite.cityOrTown}
                     </span>
                     <h3 className="text-lg font-black text-slate-900 leading-tight">
                       {selectedSite.name}
@@ -804,7 +954,7 @@ export const RegionMapView: React.FC<RegionMapViewProps> = ({
                 <div className="bg-slate-50 rounded-2xl p-3 border border-slate-100 space-y-2">
                   <span className="text-xs font-bold text-slate-800 flex items-center gap-1">
                     <BookOpen className="w-3.5 h-3.5 text-emerald-600" />
-                    Didactic Curriculum Facts:
+                    Mission Brief & Curriculum Facts:
                   </span>
                   <ul className="text-xs text-slate-600 space-y-1.5 pl-4 list-disc">
                     {selectedSite.facts.map((fact, i) => (
@@ -819,7 +969,7 @@ export const RegionMapView: React.FC<RegionMapViewProps> = ({
                     className="w-full flex items-center justify-center gap-2 py-2 px-3 rounded-xl bg-emerald-50 hover:bg-emerald-100 text-emerald-800 font-bold text-xs border border-emerald-200 transition-colors"
                   >
                     <Volume2 className="w-4 h-4 text-emerald-600" />
-                    Listen to Site Lore with Guide {guide.name}
+                    Listen to Mission Brief with Guide {guide.name}
                   </button>
 
                   {associatedMission && (
@@ -837,7 +987,7 @@ export const RegionMapView: React.FC<RegionMapViewProps> = ({
               <div className="space-y-3">
                 <div className="flex items-center justify-between">
                   <h3 className="text-sm font-bold text-slate-900">
-                    Popular Sites in {regionData.name}
+                    Mission Hubs in {regionData.name}
                   </h3>
                   <span className="text-xs text-slate-500">
                     Tap to view
@@ -845,7 +995,7 @@ export const RegionMapView: React.FC<RegionMapViewProps> = ({
                 </div>
 
                 <div className="space-y-2 max-h-[380px] overflow-y-auto pr-1">
-                  {popularSitesWithCoords.map((site) => (
+                  {regionMissionPins.map((site) => (
                     <button
                       key={site.id}
                       onClick={() => handleSelectSite(site)}
@@ -873,7 +1023,7 @@ export const RegionMapView: React.FC<RegionMapViewProps> = ({
                       className="w-full flex items-center justify-center gap-2 py-3 px-4 rounded-2xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-black text-xs shadow-md shadow-emerald-600/20 active:scale-98 transition-all"
                     >
                       <Play className="w-4 h-4 fill-white" />
-                      Start Regional Exam Quest
+                      Start Regional Mission Quest
                     </button>
                   </div>
                 )}

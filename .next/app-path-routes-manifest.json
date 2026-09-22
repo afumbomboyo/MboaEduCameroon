@@ -1,8 +1,0 @@
-{
-  "/_not-found/page": "/_not-found",
-  "/api/game/record-mission/route": "/api/game/record-mission",
-  "/api/health/route": "/api/health",
-  "/api/tutor/explain-mistake/route": "/api/tutor/explain-mistake",
-  "/api/tutor/diagnose-weakness/route": "/api/tutor/diagnose-weakness",
-  "/page": "/"
-}
