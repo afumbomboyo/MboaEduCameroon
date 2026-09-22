@@ -1,0 +1,7 @@
+{
+  "name": "MboaEdu: Cameroon Common Entrance & FSLC Quest",
+  "description": "Gamified primary school learning and examination preparation platform for Cameroon Common Entrance and FSLC, featuring an interactive Cameroon mission map, AI tutor diagnostics, Explain My Mistake engine, and parent/teacher dashboards.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
+
